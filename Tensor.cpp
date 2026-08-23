@@ -179,7 +179,7 @@ public:
         res.shape_ = n_shape;
         return res;
     }
-
+    // concat: une múltiples tensores. Valida que todas las dimensiones coincidan excepto en el eje de concatenación, y reserva un nuevo bloque de memoria.
     static Tensor concat(const std::vector<Tensor>& list, size_t axis) {
         if (list.empty()) throw std::invalid_argument("Lista vacia");
 
@@ -209,7 +209,7 @@ public:
         }
         return res;
     }
-
+    //Funciones de activación
     Tensor relu() const {
         Tensor res(shape_);
         for (size_t i = 0; i < size_; ++i) {
@@ -229,7 +229,7 @@ public:
     friend Tensor dot(const Tensor& a, const Tensor& b);
     friend Tensor matmul(const Tensor& a, const Tensor& b);
 };
-
+//Funciones amigas
 Tensor dot(const Tensor& a, const Tensor& b) {
     if (a.size_ != b.size_) throw std::invalid_argument("Tamaños diferentes para dot");
     double acc = 0.0;
@@ -238,7 +238,8 @@ Tensor dot(const Tensor& a, const Tensor& b) {
     }
     return Tensor({1}, {acc});
 }
-
+// matmul: multiplicación matricial estándar O(M*K*N).
+// Verifica rigurosamente que los tensores sean 2D y que las dimensiones internas coincidan.
 Tensor matmul(const Tensor& a, const Tensor& b) {
     if (a.shape_.size() != 2 || b.shape_.size() != 2) {
         throw std::invalid_argument("Solo matrices 2D");
@@ -263,7 +264,7 @@ Tensor matmul(const Tensor& a, const Tensor& b) {
     }
     return res;
 }
-
+// Función auxiliar para imprimir el flujo de la red neuronal
 void print_step(int step, const Tensor& t) {
     std::cout << "Paso " << step << " | Size: " << t.size() << " | Shape: [";
     for (size_t i = 0; i < t.shape().size(); ++i) {
@@ -273,6 +274,7 @@ void print_step(int step, const Tensor& t) {
 }
 
 int main() {
+    // Ejecución secuencial del pipeline de la red neuronal
     try {
         Tensor x = Tensor::random({1000, 20, 20}, -1.0, 1.0);
         print_step(1, x);
