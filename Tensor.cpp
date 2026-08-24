@@ -168,14 +168,14 @@ public:
         return res;
     }
 
-    Tensor unsqueeze(size_t axis) const {
+    Tensor unsqueeze(size_t axis) {
         if (shape_.size() >= 3) throw std::invalid_argument("Maximo 3D superado");
         if (axis > shape_.size()) throw std::invalid_argument("Eje no valido");
 
         std::vector<size_t> n_shape = shape_;
         n_shape.insert(n_shape.begin() + axis, 1);
 
-        Tensor res(*this);
+        Tensor res(std::move(*this));
         res.shape_ = n_shape;
         return res;
     }
