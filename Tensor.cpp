@@ -11,6 +11,7 @@ private:
     size_t size_;
     double* data_;
 
+    // Calcula el tamaño total, máximo 3 dimensiones
     size_t calc_size(const std::vector<size_t>& sh) const {
         if (sh.empty() || sh.size() > 3) {
             throw std::invalid_argument("Dimension invalida");
@@ -24,6 +25,7 @@ private:
     }
 
 public:
+    // Constructor principal, recibe los valores explícitos
     Tensor(const std::vector<size_t>& shape, const std::vector<double>& values)
         : shape_(shape), size_(calc_size(shape)) {
         if (values.size() != size_) {
@@ -34,7 +36,6 @@ public:
             data_[i] = values[i];
         }
     }
-
     Tensor(const std::vector<size_t>& shape)
         : shape_(shape), size_(calc_size(shape)), data_(new double[calc_size(shape)]()) {}
 
@@ -156,7 +157,7 @@ public:
         for (size_t i = 0; i < size_; ++i) res.data_[i] = data_[i] * val;
         return res;
     }
-
+    // view reorganiza todos los elementos en una forma nueva arbitraria.
     Tensor view(const std::vector<size_t>& new_shape) {
         size_t n_size = 1;
         for (auto d : new_shape) n_size *= d;
@@ -167,7 +168,7 @@ public:
         res.shape_ = new_shape;
         return res;
     }
-
+    // unsqueeze inserta una dimensión de tamaño 1 en la posición indicada, sin reorganizar los datos
     Tensor unsqueeze(size_t axis) {
         if (shape_.size() >= 3) throw std::invalid_argument("Maximo 3D superado");
         if (axis > shape_.size()) throw std::invalid_argument("Eje no valido");
