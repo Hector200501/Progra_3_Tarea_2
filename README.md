@@ -1,5 +1,10 @@
 # Progra_3_Tarea_2
 
+## Integrantes
+- Hector Sebastian Choque Dueñas
+- Camila Araceli Alfaro Chuquino
+- Piero Alejandro Ortega Capacute
+
 Librería de tensores en C++ (Tensor++) diseñada para manejar operaciones matemáticas avanzadas y simular una red neuronal de procesamiento de datos, inspirada en NumPy y PyTorch. Desarrollada para el curso de Programación III.
 
 ## Requisitos
